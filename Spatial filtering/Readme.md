@@ -1,4 +1,4 @@
-# Spatial filtering
+# filtsp
 
 This code performs spatial filtering via a self-defined moving window  
 Only three filters are available:
