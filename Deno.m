@@ -25,7 +25,7 @@
 %                                                                         %
 % Note that: This code approximately set 5% of NaN among the whole data   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [DeNoiseMat,NInd] = DeNoise2(NoiseMat,ws)
+function [DeNoiseMat,NInd] = Deno(NoiseMat,ws)
 [R,C] = size(NoiseMat);
 Grd = NoiseMat;
 
