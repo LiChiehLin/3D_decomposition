@@ -16,7 +16,7 @@
 % 3. type:                                                                %
 % 'lowp'=low-pass filter                                                  %
 % 'highp'=high-pass filter                                                %
-% 'gauss'=gaussian filter                                                 %
+% 'gauss'=gaussian low-pass filter                                        %
 % 4. sigma: For Gaussian filter(1, 2, 3 etc.)                             %
 % 5. nanskip: Ignore nan or not. 1=gives nan if has one in window         %
 %                                                                         %
