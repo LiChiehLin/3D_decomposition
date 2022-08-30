@@ -7,8 +7,9 @@
 > The code for reading netCDF grds is from Kelsey Jordahl (2022). grdread2 (https://www.mathworks.com/matlabcentral/fileexchange/25683-grdread2), MATLAB Central File Exchange. Retrieved August 30, 2022.  
 - 3D decomposition: InSAR3Ddisp.m  
 - Denoise: Deno.m  
-- ConvertGrd: Convert2Grd.m  
-- Get image boundaries and increments: BoundBox.m  
-- Regrid the grds to the same size: Regrid.m  
+- ConvertGrd:  
+   * BoundBox.m
+   * Regrid.m
+   * Convert2Grd.m  
 - Sptial fitering: filtsp.m  
 
