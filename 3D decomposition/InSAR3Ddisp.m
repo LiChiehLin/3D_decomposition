@@ -25,7 +25,7 @@
 % Note that the order is (e,n,u)                                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [Out,Outcount] = InSAR3Ddispnew(InGrd,Azimuth,LookAngle,DispType,Orbit,Num)
+function [Out,Outcount] = InSAR3Ddisp(InGrd,Azimuth,LookAngle,DispType,Orbit,Num)
 
 Row = size(InGrd{1},1);
 Col = size(InGrd{1},2);
