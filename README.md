@@ -10,10 +10,10 @@
 Detailed description of each code is written in the function already
 - 3D decomposition: InSAR3Ddisp.m  
 - Denoise: Deno.m  
-- ConvertGrd:  
+- ConvertGrd: Convert2Grd.m  
+- Sptial fitering: filtsp.m  
+- Regrid:
+   * MakeGrid.m
    * BoundBox.m
    * Regrid.m
-   * Convert2Grd.m  
-   * MakeGrid.m
-- Sptial fitering: filtsp.m  
 
