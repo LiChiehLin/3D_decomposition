@@ -1,3 +1,6 @@
+### Note that:
+Each input variable should align to the image attributes  
+
 ##### Input variables:
 - InGrd: 
    * cell variable. Each column in the cell should be a image matrix read by *'grdread2.m'*
@@ -19,5 +22,10 @@
    * number. How many images are under converting
 
 
-### Note that:
-Each input variable should align to the image attributes  
+##### Output variables:
+- Out: cell variable. The order is E N U
+- Outcount: matrix variable. Counts how many inputs were used to invert ENU displacement
+   * Azimuth displacement is the first digit
+   * LOS displacement is the second digit
+   * If this pixel is inverted from 2 Azimuth displacement and 1 LOS displacement
+   * Then this particular Outcount(m,n) will be stored *21*
