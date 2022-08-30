@@ -12,8 +12,8 @@
 % This is to convert 3D displacement inversion to grd and txt             %
 %                                                                         %
 % Input:                                                                  %
-% 1. Inv: A cell contain five columns (Lon,Lat,E,N,U)                     %
-%         All five columns have the same size                             %
+% 1. Inv: A cell contain 3 or 5 columns (Lon,Lat,E,N,U) or (Lon,Lat,Z)    %
+%         All columns have the same size                                  %
 % 2. Inc: Increment of X and Y directions                                 %
 %         Can take the result from BoundBox.m                             %
 % 3. Step: Whether is one-step or two-step. A string (step = 'one')       %
