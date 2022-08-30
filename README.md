@@ -8,4 +8,5 @@
 - Convert to netCDF format: Convert2Grd.m  
 - Get image boundaries and increments: BoundBox.m  
 - Regrid the grds to the same size: Regrid.m  
+- Sptial fitering: filtsp.m  
 
