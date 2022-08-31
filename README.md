@@ -14,12 +14,8 @@ Use grdread2.m to read netCDF grds
 
 ### Below lists the codes in each directories
 Detailed description of each code is written in the function already
-- 3D decomposition: InSAR3Ddisp.m  
+- 3D decomposition: 
+   * InSAR3Ddisp.m  
+   * Convert2Grd.m
 - Denoise: Deno.m  
-- ConvertGrd: Convert2Grd.m  
 - Sptial fitering: filtsp.m  
-- Regrid:
-   * MakeGrid.m
-   * BoundBox.m
-   * Regrid.m
-
