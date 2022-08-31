@@ -6,4 +6,5 @@ Only three filters are available:
 - Gaussian low pass filter
 - High pass filter  
 
-Detailed input variable descriptions are written in the code.
+Larger the window size, stronger the filtering.  
+Window size should be a odd number
