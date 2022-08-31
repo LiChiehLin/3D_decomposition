@@ -27,5 +27,5 @@ Each input variable should align to the image attributes
 - Outcount: matrix variable. Counts how many inputs were used to invert ENU displacement
    * Azimuth displacement is the first digit
    * LOS displacement is the second digit
-   * If this pixel is inverted from 2 Azimuth displacement and 1 LOS displacement
-   * Then this particular Outcount(m,n) will be stored *21*
+   * If this pixel is inverted from **2 Azimuth displacement** and **1 LOS displacement**
+   * Then this particular Outcount(m,n) will be stored **21**
