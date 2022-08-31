@@ -29,3 +29,11 @@ Each input variable should align to the image attributes
    * LOS displacement is the second digit
    * If this pixel is inverted from **2 Azimuth displacement** and **1 LOS displacement**
    * Then this particular Outcount(m,n) will be stored **21**
+
+---
+### Example:
+Make sure every grd has the same size and increment!
+
+```MatLab
+
+```
