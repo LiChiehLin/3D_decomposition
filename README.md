@@ -18,3 +18,4 @@ Use grdread2.m to read netCDF grds
    * Convert2Grd.m
 - Denoise: Deno.m  
 - Sptial fitering: filtsp.m  
+- Near neighbor: nearneighbor.m
