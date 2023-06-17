@@ -7,7 +7,7 @@ Fill NaN pixels with values from neighboring pixels
   Then the neighbors are given by `(i-Radius:i+Radius,j-Radius:j+Raidus)`
   
 2. Weighting of neighboring pixels is defined as follows, let `Radius=3`  
-  Say neighbors in `Raidus 1` is `a`, `Raidus 2` is b and `Radius 3` is `c`  
+  Say neighbors in `Radius 1` is `a`, `Radius 2` is `b` and `Radius 3` is `c`  
   The interpolated-value will be determined as `mean(a+(a+b)+(a+b+c))`  
   So the weighting will be 3:2:1
 
