@@ -29,4 +29,4 @@ Weight = 1
 % Start program nearneighbor.m
 Interpolated = nearneighbor(ToBeInterpolated,Radius,Weight);
 ```
-
+ 
