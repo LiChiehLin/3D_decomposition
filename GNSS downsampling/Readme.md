@@ -1,7 +1,8 @@
 # Dsample.m (Downsampling of GNSS or seismic stations)
 
 In any case, where downsampling of stations is necessary for further calculation.  
-Assures the distance between stations is under a self-defined distance.
+Assures the distance between stations is under a self-defined distance.  
+Remove one station at a time.
 
 1. Determine a distance threshold for which stations should be spaced
 2. Calculate the number of stations that are within the distance for each station
