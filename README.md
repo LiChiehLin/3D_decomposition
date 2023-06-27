@@ -19,6 +19,6 @@ Use grdread2.m to read netCDF grds
 - Denoise: Deno.m  
 - Sptial fitering: filtsp.m  
 - Near neighbor: nearneighbor.m
-- GNSS Downsampling:
+- GNSS downsampling:
    * DistMatrix.m
    * Dsample.m
