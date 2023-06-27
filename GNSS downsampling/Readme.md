@@ -28,5 +28,5 @@ Dist = 5000;
 % Start program Dsample.m
 [Downsampled,NInd] = Dsample(ToBeDownsampled,Dist);
 ```
-After 274 iterations:
+After 272 iterations (576 stations downsampled to 304 under distance threshold of 5000 meters):
 ![Example](https://github.com/LiChiehLin/3D_decomposition/blob/43852c0bc77ba0cb97f794eeb8fc51ee38bf16ce/Figures/Dsample_Example.png)
