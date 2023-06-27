@@ -10,6 +10,8 @@ Remove one station at a time.
 4. Calculate the total distance between these stations
 5. Remove the station that has the minimum total distance (Closest to other stations)
 
+##### DistMatrix.m is a sub-routine in Dsample.m. Must be included in path.
+
 ---
 ##### Input variable:
    * InMat: matrix. The first two columns have to be local coordinates. 
@@ -26,3 +28,5 @@ Dist = 5000;
 % Start program Dsample.m
 [Downsampled,NInd] = Dsample(ToBeDownsampled,Dist);
 ```
+After 274 iterations:
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/43852c0bc77ba0cb97f794eeb8fc51ee38bf16ce/Figures/Dsample_Example.png)
