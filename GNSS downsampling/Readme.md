@@ -20,10 +20,9 @@ Remove one station at a time.
 ---
 ### Example:
 ```MatLab
-% Read data and determine window size
-[x,y,ToBeRemoved] = grdread2('Displacement.grd');
-ws = 3;
+% Determine distance threshold (Meters)
+Dist = 5000;
 
-% Start program Deno.m
-[Removed,NInd] = Deno(ToBeRemoved,ws);
+% Start program Dsample.m
+[Downsampled,NInd] = Dsample(ToBeDownsampled,Dist);
 ```
