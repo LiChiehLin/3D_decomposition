@@ -5,9 +5,9 @@ Assures the distance between stations is under a self-defined distance.
 
 1. Determine a distance threshold for which stations should be spaced
 2. Calculate the number of stations that are within the distance for each station
-3. Calculate the Cumulative Distribution Function (CDF) of all `σ`
-4. Determine `Threshold γ` based on 95% of the CDF
-5. Remove pixels that the corresponding `σ` is larger than `γ`
+3. Find the stations that have the most neighboring stations
+4. Calculate the total distance between these stations
+5. Remove the station that has the minimum total distance (Closest to other stations)
 
 ---
 ##### Input variable:
