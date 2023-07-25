@@ -25,3 +25,4 @@ ws = 3;
 % Start program Deno.m
 [Removed,NInd] = Deno(ToBeRemoved,ws);
 ```
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/57d1ca3b4f9f5562579f5f50b04ef2223b09013b/Figures/Denoise_Example.png)
