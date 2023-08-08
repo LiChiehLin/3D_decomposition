@@ -22,3 +22,17 @@ Use grdread2.m to read netCDF grds
 - GNSS downsampling:
    * DistMatrix.m
    * Dsample.m
+
+---
+## Python
+Python version of the above codes are updating!  
+Include `.py` file in your directory, import the function and execute the function like this
+```python
+## Import function
+# Take DistMatrix.py as an example
+import DistMatrix
+## Execute the function
+DistMatrix.DistMatrix(input_variables)
+```
+### Required libraries
+- numpy
