@@ -62,22 +62,31 @@ Orbit = {'Asc','Des','Asc','Des'};
 Num = 4;
 
 % Decomposing into E N U
-[Out,count] = InSAR3Ddisp(InGrd,Azimuth,Incidence,DispType,Orbit,Num);
+[Out,Stderr,count] = InSAR3Ddisp(InGrd,Azimuth,Incidence,DispType,Orbit,Num);
 
 % Extract each component
 E = ones(size(AscLOS));
+Eerr = ones(size(AscLOS));
 N = ones(size(AscLOS));
+Nerr = ones(size(AscLOS));
 U = ones(size(AscLOS));
+Uerr = ones(size(AscLOS));
 for i = 1:size(AscLOS,1)
     for j = 1:size(AscLOS,2)
         if length(Out{i,j}) == 1
             E(i,j) = nan;
+            Eerr(i,j) = nan;
             N(i,j) = nan;
+            Nerr(i,j) = nan;
             U(i,j) = nan;
+            Uerr(i,j) = nan;
         else
             E(i,j) = Out{i,j}(1);
+            Eerr(i,j) = Stderr{i,j}(1);
             N(i,j) = Out{i,j}(2);
+            Nerr(i,j) = Stderr{i,j}(2);
             U(i,j) = Out{i,j}(3);
+            Uerr(i,j) = Stderr{i,j}(3);
         end
     end
 end
