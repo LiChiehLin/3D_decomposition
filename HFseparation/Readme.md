@@ -5,6 +5,7 @@ This code takes on the distinct different displacement pattern across two fault 
 Works more satisfactorily on linear fault trace.  
 You can always use GIS software to mask out the blocks, this is just an alternative.  
 
+##### Detailed explanation and description are written in the function.
 ##### findlocalmin.m and findlocalmax.m are sub-routines in HFsep.m. Must be included in path.
 
 ---
@@ -39,3 +40,4 @@ PtoN = 0;
 % Start program Dsample.m
 [Hang,Foot,HangInd,FootInd] = HFsep(z,Str,PtoN,Overlap);
 ```
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/045043934beb51465479042e608685f2c7560a8d/Figures/HFsep_Example.png)
