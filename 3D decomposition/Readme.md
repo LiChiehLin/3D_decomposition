@@ -1,4 +1,5 @@
-### Note that:
+# InSAR3Ddisp.m (Decompose SAR-derived disp. into 3D disp.)
+**Note that:**  
 Each input variable should align to the image attributes  
 
 ##### Input variables:
