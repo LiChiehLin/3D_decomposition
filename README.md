@@ -22,17 +22,22 @@ Use grdread2.m to read netCDF grds
 - GNSS downsampling:
    * DistMatrix.m
    * Dsample.m
+- HFseparation:
+  * HFsep.m
+  * MatComb.m
+  * findlocalmax.m
+  * findlocalmin.m
 
 ---
 ## Python
-Python version of the above codes are updating!  
-Include `.py` file in your directory, import the function and execute the function like this
+Python version of the above codes are updating  
+All functions written as separate files in `.m` would be included in `DispLCL.py`  
+Include `DispLCL.py` file in your directory, import the function and execute the function like this
 ```python
 ## Import function
-# Take DistMatrix.py as an example
-import DistMatrix
+import DispLCL
 ## Execute the function
-DistMatrix.DistMatrix(input_variables)
+Output = DispLCL.DistMatrix(input_variables)
 ```
 ### Required libraries
 - numpy
