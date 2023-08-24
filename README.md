@@ -20,8 +20,8 @@ Use grdread2.m to read netCDF grds
 - Sptial fitering: filtsp.m  
 - Near neighbor: nearneighbor.m
 - GNSS downsampling:
-   * DistMatrix.m
-   * Dsample.m
+   * DistMatrix.m **(py)**
+   * Dsample.m **(py)**
 - HFseparation:
   * HFsep.m
   * MatComb.m
@@ -32,7 +32,9 @@ Use grdread2.m to read netCDF grds
 ## Python
 Python version of the above codes are updating  
 All functions written as separate files in `.m` would be included in `DispLCL.py`  
-Include `DispLCL.py` file in your directory, import the function and execute the function like this
+Those have been included in `DispLCL.py` will be marked **(py)** in the above code list  
+Include `DispLCL.py` file in your directory, import the function and execute the function like this  
+
 ```python
 ## Import function
 import DispLCL
