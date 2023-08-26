@@ -16,7 +16,7 @@ Use grdread2.m to read netCDF grds
 - 3D decomposition: 
    * InSAR3Ddisp.m  
    * Convert2Grd.m
-- Denoise: Deno.m  
+- Denoise: Deno.m **(py)**  
 - Sptial fitering: filtsp.m  
 - Near neighbor: nearneighbor.m
 - GNSS downsampling:
@@ -43,3 +43,5 @@ Output = DispLCL.DistMatrix(input_variables)
 ```
 ### Required libraries
 - numpy
+- math
+- warnings
