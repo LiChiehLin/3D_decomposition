@@ -7,6 +7,9 @@ Please see detailed usage of the according functions in the MatLab version
 Updates:  
 - (2023.08.08) DistMatrix  
 - (2023.08.24) Dsample
+- (2023.08.26) Deno with its dependencies included:
+  * histbin
+  * sub2ind  
 
 ---
 ### Use this package like this:
