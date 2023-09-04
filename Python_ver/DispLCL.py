@@ -28,16 +28,18 @@ import warnings
     # 2023.08.08 DistMatrix
     # 2023.08.24 Dsample
     # 2023.08.26 Deno
-        # Dependicies:
+        # Dependencies:
             # histbin
             # sub2ind
-    
+    # 2023.09.04 nearneighbor
+        # Dependencies:
+            # ind2sub
 #--------------Down sampling of GNSS stations (main Dsample)--------------#
 def Dsample (InMat,Dist):
     # Call DistMatrix to generate distance matrix
     DistMat = DistMatrix(InMat)
     
-    OutMat = InMat
+    OutMat = InMat.copy()
     NearSta = np.sum(DistMat<Dist,1)-1
     MaxStaCount = np.max(NearSta)
     if MaxStaCount != 0:
@@ -71,7 +73,7 @@ def DistMatrix (InMat):
 def Deno(NoiseMat,ws):
     R = NoiseMat.shape[0]
     C = NoiseMat.shape[1]
-    Grd = NoiseMat
+    Grd = NoiseMat.copy()
     
     # Determine the edge of the matrix with respect to the window size
     Edge = math.floor(ws/2)
@@ -331,9 +333,10 @@ def histbin(data):
     return bins
         
 def sub2ind(array_shape,rows,cols):
-    # From:
+    # Modified from:
     # https://blog.csdn.net/weixin_35193147/article/details/108940367
     ind = rows + cols*array_shape[0]
+    ind = int(ind)
     if ind < 0:
         ind = -1
         print("Index Value ERROR!")
@@ -344,8 +347,94 @@ def sub2ind(array_shape,rows,cols):
          return ind
      
         
+#----------------------------Nearneighbor-------------------------------#
+def nearneighbor(InMat,Radius,Weight):
+    # Find total missing values and indices
+    missind = np.where(np.isnan(InMat.flatten(order='F')))[0]
+    missrow,misscol = ind2sub(InMat.shape,missind)
+    miss = np.sum(np.isnan(InMat.flatten(order='F')))
+    print('Missing values:',str(miss))
     
-    
+    out = InMat.copy()
+    ##### Search neighbors for each missing values
+    for i in range(len(missind)):
+        print('Working on',str(i),end='\n')
+        # Make sure search box is within matrix
+        #Matind = missind[i]
+        row = missrow[i]
+        rtmp = np.asarray(range(row-Radius,row+Radius+1))
+        col = misscol[i]
+        ctmp = np.asarray(range(col-Radius,col+Radius+1))
+        rowtmp = rtmp[np.all([(rtmp >= 0),rtmp < InMat.shape[0]],axis=0)] # rows to be searched
+        coltmp = ctmp[np.all([(ctmp >= 0),ctmp < InMat.shape[1]],axis=0)] # cols to be searched
+        
+        ##### Start searching neighbors
+        # Get neighboring values
+        rowind = rowtmp*np.ones([len(coltmp),1])
+        rowind = rowind.flatten(order='F')
+        colind = coltmp*np.ones([len(rowtmp),1])
+        colind = colind.flatten(order='C')
+        
+        linind = []
+        for j in range(len(rowind)):
+            linind.append(sub2ind(InMat.shape,rowind[j],colind[j]))
+        
+        ##### No weighting
+        if Weight == 0:
+            neival = InMat.flatten(order='F')[linind]
+            with warnings.catch_warnings():
+                # This warning is expected, so it's fine
+                warnings.filterwarnings(action='ignore', message='Mean of empty slice')
+                out[missrow[i],misscol[i]] = np.nanmean(neival)
+            
+        elif Weight == 1:
+            ##### Include weighting
+            Smseq = np.asarray(range(1,Radius+1,1))
+            rlow = row - Smseq
+            rlow[rlow < 0] = 0
+            rup = row + Smseq
+            rup[rup >= np.max(rowind)] = np.max(rowind)
+            clow = col - Smseq
+            clow[clow < 0] = 0
+            cup = col + Smseq
+            cup[cup >= np.max(colind)] = np.max(colind)
+            
+
+            rowindtmp = np.tile(rowind,(len(rlow),1)).T
+            rlowtmp = np.tile(rlow,(len(rowind),1))
+            ruptmp = np.tile(rup,(len(rowind),1))
+            Smrow = np.all([rowindtmp >= rlowtmp, rowindtmp <= ruptmp],axis=0)
+            
+            colindtmp = np.tile(colind,(len(clow),1)).T
+            clowtmp = np.tile(clow,(len(colind),1))
+            cuptmp = np.tile(cup,(len(colind),1))
+            Smcol = np.all([colindtmp >= clowtmp, colindtmp <= cuptmp],axis=0)
+            
+            Smlinind = np.tile(linind,(Radius,1)).T
+            Smbool = np.all([Smrow,Smcol],axis=0)
+            Smind = Smlinind.flatten(order='F')[Smbool.flatten(order='F')]
+            Smneival = InMat.flatten(order='F')[Smind]
+            
+            with warnings.catch_warnings():
+                # This warning is expected, so it's fine
+                warnings.filterwarnings(action='ignore', message='Mean of empty slice')
+                out[missrow[i],misscol[i]] = np.nanmean(Smneival)
+                
+        else:
+             return -1
+             
+    return out
+        
+        
+        
+def ind2sub(array_shape, ind):
+    # Modified from:
+    # https://gist.github.com/mizunototori/9b26f8b5bdcccabdadb460da7dcfffc1
+    cols = (ind.astype("int32") // array_shape[0])
+    rows = (ind.astype("int32") % array_shape[0])
+    return (rows, cols)
+
+
     
     
     
@@ -367,5 +456,4 @@ def sub2ind(array_shape,rows,cols):
 
 
     
-    
-    
+        
