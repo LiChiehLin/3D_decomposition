@@ -30,17 +30,36 @@ Use grdread2.m to read netCDF grds
 
 ---
 ## Python
-Python version of the above codes are updating  
-All functions written as separate files in `.m` would be included in `DispLCL.py`  
+Python version of the above codes are updating!  
 Those have been included in `DispLCL.py` will be marked **(py)** in the above code list  
-Include `DispLCL.py` file in your directory, import the function and execute the function like this  
+Include `DispLCL.py` file in your directory, import the function and execute the function 
 
+### Use `DispLCL.py` as follows:
 ```python
 ## Import function
 import DispLCL
 ## Execute the function
 Output = DispLCL.DistMatrix(input_variables)
 ```
+
+### For handling netCDF grd file  
+```python
+import netCDF4 as nc
+import matplotlib.pyplot as plt
+# Read in and convert to numpy array
+f = nc.Dataset('Your_grd')
+x = np.asarray(f.variables['x'])
+y = np.asarray(f.variables['y'])
+z = np.asarray(f.variables['z'])
+
+# Show figure
+plt.matshow(z)
+```
+### For handling .txt file  
+```python
+data = np.loadtxt('Your_txt',dtype='f')
+```
+
 ### Required libraries
 - numpy
 - math
