@@ -10,7 +10,9 @@ Updates:
 - (2023.08.26) Deno with its dependencies included:
   * histbin
   * sub2ind  
-
+- (2023.09.04) nearneighbor with its dependencies included:
+  * ind2sub
+ 
 ---
 ### Use this package like this:
 ##### Download `DispLCL.py` and put it under your path  
