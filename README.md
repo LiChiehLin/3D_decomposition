@@ -10,7 +10,11 @@ addpath(genpath('DIRECTORY OF MATLAB CODES'))
  
 ---
 Use grdread2.m to read netCDF grds
-> The code for reading netCDF grds is from Kelsey Jordahl (2022). grdread2 (https://www.mathworks.com/matlabcentral/fileexchange/25683-grdread2), MATLAB Central File Exchange. Retrieved August 30, 2022.  
+> The code for reading netCDF grds is from Kelsey Jordahl (2010). grdread2 (https://www.mathworks.com/matlabcentral/fileexchange/25683-grdread2), MATLAB Central File Exchange. Retrieved August 30, 2022.  
+
+---
+Use grdwrite2.m to write netCDF grds
+> The code for writing netCDF grds is from Kelsey Jordahl (2011). grdwrite2 (https://www.mathworks.com/matlabcentral/fileexchange/26290-grdwrite2), MATLAB Central File Exchange. Retrieved October 20, 2023.
 
 ### Below lists the codes in each directories
 - 3D decomposition: 
