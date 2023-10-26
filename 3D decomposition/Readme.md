@@ -7,11 +7,11 @@ Each input variable should align to the image attributes
    * cell variable. Each column in the cell should be a image matrix read by *'grdread2.m'*
 - Azimuth: 
    * Satellite inclination degree
-   * Ascending and Descending should be the same number
+   * Ascending and Descending should be the same number (Can also be the azimuth angle of each ground pixel)
    * 12° for Sentinel-1 
    * 8° for ALOS-2
 - LookAngle:
-   * Satellite looking angle
+   * Satellite looking angle (Can also be the azimuth angle of each ground pixel)
    * 32.9° for Sentinel-1 subswath 1 
    * 38.3° for Sentinel-1 subswath 2 
    * 43.1° for Sentinel-1 subswath 3
@@ -43,21 +43,19 @@ https://github.com/LiChiehLin/GMTSAR_gadgets/blob/de9d5f5c177badab2a16f0c8c42290
 [~,~,AscAzi] = grdread2('Sentinel_Asc_Azi.grd');
 [~,~,DesAzi] = grdread2('Sentinel_Des_Azi.grd');
 
-% Get Lon, Lat and Inc
-Lon = ones(length(y),1)*x;
-Lat = flipud(y')*ones(1,length(x));
-Inc = [x(2)-x(1),y(2)-y(1)];
 
 % Enter satellite parameters
-AlphaAsc = 12;
-AlphaDes = 12;
-ThetaAsc = 43.1;
-ThetaDes = 32.9;
+AlphaAsc = 12; # or a matrix with the same size as the diplacement matrix, inter-changeable
+AlphaDes = 12; # or a matrix with the same size as the diplacement matrix, inter-changeable
+ThetaAsc = 43.1; # or a matrix with the same size as the diplacement matrix, inter-changeable
+ThetaDes = 32.9; # or a matrix with the same size as the diplacement matrix, inter-changeable
 
 % Prepare inversion
 InGrd = {AscLOS,DesLOS,AscAzi,DesAzi};
 Azimuth = [AlphaAsc,AlphaDes,AlphaAsc,AlphaDes];
+# Or: Azimuth = {AlphaAsc,AlphaDes,AlphaAsc,AlphaDes};
 Incidence = [ThetaAsc,ThetaDes,ThetaAsc,ThetaDes];
+# Or: Incidence = {ThetaAsc,ThetaDes,ThetaAsc,ThetaDes}
 DispType = {'LOS','LOS','Azi','Azi'};
 Orbit = {'Asc','Des','Asc','Des'};
 Num = 4;
@@ -93,13 +91,7 @@ for i = 1:size(AscLOS,1)
 end
 
 %% Convert to grd
-Inv = {Lon,Lat,flipud(E),flipud(N),flipud(U)}; % flipud is essential since it was upside down
-Inc = Inc;
-Step = 'name'
-Convert2Grd(Inv,Inc,Step);
-```
-#### Go to terminal/command window
-```csh
-cd 'YOUR DIRECTORY'
-csh XYZ2GRD.csh
+grdwrite2(x,y,E,'E.grd');
+grdwrite2(x,y,N,'N.grd');
+grdwrite2(x,y,U,'U.grd');
 ```
