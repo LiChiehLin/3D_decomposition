@@ -1,21 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                             Lin,Li-Chieh                                %
-%                         Department of Geography                         %
-%                       National Taiwan University                        %
+%                     Earth and Planetary Sciences                        %
+%                  University of California, Riverside                    %
 %                              2021.04.13                                 %
 %                                                                         %
 % Updates:                                                                %
 % (2022.06.15) Add inversion input counts as variable 'Outcount'          %
 % (2023.08.21) Add standard error of the inverted displacement for each   %
 %              grid                                                       %
+% (2023.10.25) Make pixel-wise azimuth and incidence angle input          %
 %                                                                         %
 % Perform 3D displacement inversion on InSAR results                      %
 %                                                                         %
 % Input:                                                                  %
 % 1. InGrd: A cell of Grds (InGrd = {Grd1,Grd2,Grd3...})                  %
-% 2. Azimuth: Azimuth angle (Azimuth = [Azi1,Azi2,Azi3...])               %                      
+% 2. Azimuth: Azimuth angle (Azimuth = [Azi1,Azi2,Azi3...]) or            %
+%    (Azimuth = {Azi1,Azi2,Azi3}), each is a matrix with same size        %
 % 3. LookAngle: Incident angle (LookAngle = [Theta1,Theta2,Theta3...])    %
+%    (LookAngle = {Theta1,Theta2,Theta3}), each is a matrix with same size%
 % 4. DispType: LOS or Azi (DispType = {'LOS','Azi','LOS'...})             %
 % 5. Orbit: Ascending or Descending (Orbit = {'Asc','Des','Asc'...})      %
 % 6. Num: How many inputs (3 or 4 ....)                                   %
@@ -42,49 +45,60 @@ Col = size(InGrd{1},2);
 
 %Construct G and d matrices
 w = ones(Num,1);
-G = ones(Num,3);
+G = cell(Row,Col);
 d = cell(Row,Col);
 m = cell(Row,Col);
 stderr = cell(Row,Col);
 count = zeros(Row,Col);
 
 for i = 1:Num
-    %G matrix
-    Azi = Azimuth(i);
-    Theta = LookAngle(i);
+    if iscell(Azimuth) && iscell(LookAngle)
+        Azi = Azimuth{i};
+        Theta = LookAngle{i};
+    elseif iscell(Azimuth) && ~iscell(LookAngle)
+        Azi = Azimuth{i};
+        Theta = LookAngle(i)*ones(Row,Col);
+    elseif ~iscell(Azimuth) && iscell(LookAngle)
+        Azi = Azimuth(i)*ones(Row,Col);
+        Theta = LookAngle{i};
+    elseif ~iscell(Azimuth) && ~iscell(LookAngle)
+        Azi = Azimuth(i)*ones(Row,Col);
+        Theta = LookAngle(i)*ones(Row,Col);
+    end
+
+    Wmat = diag(w);
+    % Constrcut G and d matrix
     Type = DispType{i};
     Orb = Orbit{i};
-    if strcmp(Type,'Azi')
-        if strcmp(Orb,'Asc')
-            w(i) = 1;
-            G(i,:) = [-sind(Azi),cosd(Azi),0];
-        elseif strcmp(Orb,'Des')
-            w(i) = 1;
-            G(i,:) = [-sind(Azi),-cosd(Azi),0];
-        else
-            error('Orbit input should be Asc or Des')
-        end
-    elseif strcmp(Type,'LOS')
-        if strcmp(Orb,'Asc')
-            w(i) = 1;
-            G(i,:) = [cosd(Azi)*sind(Theta),sind(Azi)*sind(Theta),-cosd(90-Theta)];
-        elseif strcmp(Orb,'Des')
-            w(i) = 1;
-            G(i,:) = [-cosd(Azi)*sind(Theta),sind(Azi)*sind(Theta),-cosd(90-Theta)];
-        else
-            error('Orbit input should be Asc or Des')
-        end
-    else
-        error('Cannot match displacement type: ABORT!')
-    end
-    
-    Wmat = diag(w);
-    %d matrix
     Grd = InGrd{i};
     for r = 1:Row
         for c = 1:Col
-            tex = ['Construct d Matrix ','Grd:',num2str(i),' row:',num2str(r),' col:',num2str(c)];
+            tex = ['Construct G and d Matrix ','Grd:',num2str(i),' row:',num2str(r),' col:',num2str(c)];
             disp(tex)
+            if strcmp(Type,'Azi')
+                if strcmp(Orb,'Asc')
+                    w(i) = 1;
+                    G{r,c}(i,:) = [-sind(Azi(r,c)),cosd(Azi(r,c)),0];
+                elseif strcmp(Orb,'Des')
+                    w(i) = 1;
+                    G{r,c}(i,:) = [-sind(Azi(r,c)),-cosd(Azi(r,c)),0];
+                else
+                    error('Orbit input should be Asc or Des')
+                end
+            elseif strcmp(Type,'LOS')
+                if strcmp(Orb,'Asc')
+                    w(i) = 1;
+                    G{r,c}(i,:) = [cosd(Azi(r,c)).*sind(Theta(r,c)),sind(Azi(r,c)).*sind(Theta(r,c)),-cosd(90-Theta(r,c))];
+                elseif strcmp(Orb,'Des')
+                    w(i) = 1;
+                    G{r,c}(i,:) = [-cosd(Azi(r,c)).*sind(Theta(r,c)),sind(Azi(r,c)).*sind(Theta(r,c)),-cosd(90-Theta(r,c))];
+                else
+                    error('Orbit input should be Asc or Des')
+                end
+            else
+                error('Cannot match displacement type: ABORT!')
+            end
+
             d{r,c}(i,1) = Grd(r,c);
         end
     end
@@ -94,12 +108,13 @@ end
 for r = 1:Row
     for c = 1:Col
         dCal = d{r,c};
+        GCal = G{r,c};
         tex = ['Inverting: ','row:',num2str(r),' col:',num2str(c)];
         disp(tex)
         
         Typetmp = DispType(~isnan(dCal));
         Wtmp = Wmat(~isnan(dCal),~isnan(dCal));
-        Gtmp = G(~isnan(dCal),:);
+        Gtmp = GCal(~isnan(dCal),:);
         dCaltmp = dCal(~isnan(dCal));
         if (Num - sum(isnan(dCal))) < 2
             m{r,c} = nan;
@@ -175,5 +190,3 @@ Out = m;
 OutStderr = stderr;
 Outcount = count;
 end
-
-
