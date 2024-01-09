@@ -32,3 +32,4 @@ OutMat = Expand_extent(InMat);
 grdwrite2(OutMat{1},OutMat{2},OutMat{3});
 grdwrite2(OutMat{1},OutMat{2},OutMat{4});
 ```
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/67b44218aa429ec1663b1bc329ccbd235cd5b05f/Figures/Expand_extent_Example.png)
