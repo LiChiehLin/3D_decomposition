@@ -31,5 +31,8 @@ EndT = 20221117;
 ```MatLab
 grdwrite2(Lon,Lat,Out(:,:,1))
 ```
+---
+Note that since `MintPy` is built on Python, there exists a little difference due to how Matlab and Python treat decimal values differently.  
+The residual is the difference of the above velocities. The unit is mm/yr, so the difference should be negligible.
 
 ![Example](https://github.com/LiChiehLin/3D_decomposition/blob/3d79d897e99a70c1cc778293bf0c9dbc7c2f382a/Figures/Extract_Timespan_example.png)
