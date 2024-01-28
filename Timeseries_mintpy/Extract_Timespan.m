@@ -90,6 +90,7 @@ end
 %% Get displacement for given timespan
 Ind = (date >= StartT) & (date <= EndT);
 P1 = Displ(:,:,Ind);
+x = datedeci(Ind);
 
 %% Estimate velocity using simple linear regression
 row = size(P1,1); col = size(P1,2);
@@ -98,7 +99,6 @@ for i = 1:size(P1,3)
     tmp = P1(:,:,i);
     P1calc(i,:) = tmp(:);
 end
-x = datedeci;
 G = [x,ones(size(P1,3),1)];
 m = G\P1calc;
 
