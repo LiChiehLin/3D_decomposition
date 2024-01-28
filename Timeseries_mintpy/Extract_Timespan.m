@@ -5,6 +5,9 @@
 %                  University of California, Riverside                    %
 %                              2023.12.15                                 %
 %                                                                         %
+% (2024.01.27) Revision:                                                  %
+% Change parameterization in velocity estimation, add checks before start %
+%                                                                         %
 % Extract surface velocity field in certain time period from timeseries   %
 % data made by mintpy (geo_timeseries.h5, geo_timeseries_ramp.h5)         %
 %                                                                         %
@@ -12,6 +15,8 @@
 % 1. Inh5file: String. The name of the .h5 data                           %
 % 2. StartT: Number. The starting time of your timespan                   %
 % 3. EndT: Number. The ending time of your timespan                       %
+% Note that the input time format should be 8 digits with the form of     %
+% (yyyymmdd)                                                              %
 %                                                                         %
 %                                                                         %
 % Output:                                                                 %
@@ -27,6 +32,11 @@
 % Use grdwrite2(Lon,Lat,Out(:,:,1),'GRDNAME.grd') to output as .grd file  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [Lon,Lat,Out] = Extract_Timespan(Inh5file,StartT,EndT)
+%% Check input time format
+if length(num2str(StartT)) ~= 8 || length(num2str(EndT)) ~= 8
+    error('Input time format needs to be 8 digits (yyyymmdd)')
+end
+
 %% Read matrix and attributes
 file = hdf5info(Inh5file);
 
@@ -38,6 +48,14 @@ for i = 1:length(epoch)
 end
 disp(strcat('Full length of data:',num2str(date(1)),'~',num2str(date(end))))
 disp(strcat('Extracting data between:',num2str(StartT),'~',num2str(EndT)))
+
+% Convert to decimal year
+datestr = num2str(date);
+yyyy = str2num(datestr(:,1:4));
+mm = str2num(datestr(:,5:6));
+dd = str2num(datestr(:,7:8));
+datedeci = decyear(yyyy,mm,dd);
+
 
 % Get displacement
 Displ = hdf5read(file.GroupHierarchy.Datasets(3));
@@ -80,7 +98,7 @@ for i = 1:size(P1,3)
     tmp = P1(:,:,i);
     P1calc(i,:) = tmp(:);
 end
-x = 1:size(P1,3); x = x';
+x = datedeci;
 G = [x,ones(size(P1,3),1)];
 m = G\P1calc;
 
