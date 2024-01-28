@@ -32,4 +32,4 @@ EndT = 20221117;
 grdwrite2(Lon,Lat,Out(:,:,1))
 ```
 
-![Example](https://github.com/LiChiehLin/3D_decomposition/blob/045043934beb51465479042e608685f2c7560a8d/Figures/HFsep_Example.png)
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/3d79d897e99a70c1cc778293bf0c9dbc7c2f382a/Figures/Extract_Timespan_example.png)
