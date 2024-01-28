@@ -31,3 +31,5 @@ EndT = 20221117;
 ```MatLab
 grdwrite2(Lon,Lat,Out(:,:,1))
 ```
+
+![Example](https://github.com/LiChiehLin/3D_decomposition/blob/045043934beb51465479042e608685f2c7560a8d/Figures/HFsep_Example.png)
