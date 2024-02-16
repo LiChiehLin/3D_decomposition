@@ -22,7 +22,7 @@ Expand the spatial extent of the input grds. This is convenient when performing 
 [x1,y1,z1] = grdread2('grd1.grd');
 [x2,y2,z2] = grdread2('grd2.grd');
 InMat{1,1} = x1; InMat{1,2} = y1; InMat{1,3} = z1;
-InMat{2,2} = x2; InMat{2,2} = y2; InMat{2,3} = z2;
+InMat{2,1} = x2; InMat{2,2} = y2; InMat{2,3} = z2;
 
 % Start program Extract_Timespan.m
 OutMat = Expand_extent(InMat);
