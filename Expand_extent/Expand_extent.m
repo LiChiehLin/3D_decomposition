@@ -5,6 +5,10 @@
 %                  University of California, Riverside                    %
 %                              2024.01.09                                 %
 %                                                                         %
+% Updates:                                                                %
+% (2024.02.16) Accommodate grds with slightly different x and y increments%
+%                                                                         %
+%                                                                         %
 % Expand the input grds to the same spatial extent. This is useful when   %
 % doing image comparisons like differencing or adding.                    %
 %                                                                         %
@@ -66,8 +70,17 @@ for i = 1:size(InMat,1)
     % Zero-padding for original x and y
     x = InMat{i,1}; y = InMat{i,2};
     [~,xalignind] = min(abs(Lon - x(1)));
+    % Force x has the same length as Lon
+    if xalignind > (length(Lon) - length(x) + 1)
+        xalignind = length(Lon) - length(x) + 1;
+    end
     xalign = [nan(1,xalignind-1),x,nan(1,length(Lon)-length(x)-(xalignind-1))];
+
     [~,yalignind] = min(abs(Lat - y(1)));
+    % Force y has the same length as Lat
+    if yalignind > (length(Lat) - length(y) + 1)
+        yalignind = length(Lat) - length(y) + 1;
+    end
     yalign = [nan(1,yalignind-1),y,nan(1,length(Lat)-length(y)-(yalignind-1))];
     
     % Construct the zero-padded to matrices
