@@ -6,7 +6,8 @@
 %                              2024.01.09                                 %
 %                                                                         %
 % Updates:                                                                %
-% (2024.02.16) Accommodate grds with slightly different x and y increments%
+% (2024.02.16) Accomodate grds with slight difference x and y increments  %
+% (2024.02.19) Display some stats and progress                            %
 %                                                                         %
 %                                                                         %
 % Expand the input grds to the same spatial extent. This is useful when   %
@@ -51,10 +52,18 @@ for i = 1:size(InMat,1)
     ymintmp(i) = min(ytmp); ymaxtmp(i) = max(ytmp);
     xinctmp(i) = abs(xtmp(2) - xtmp(1));
     yinctmp(i) = abs(ytmp(2) - ytmp(1));
+    disp(strcat('Original stats for matrix:',num2str(i)))
+    disp(strcat('W E S N: ',num2str(min(xtmp)),32,num2str(max(xtmp)),32,num2str(min(ytmp)),32,num2str(max(ytmp))))
+    disp(strcat('xinc & yinc: ',num2str(abs(xtmp(2) - xtmp(1))),32,num2str(abs(ytmp(2) - ytmp(1)))))
+    disp('--------------------------------------------')
 end
 xmin = min(xmintmp); xmax = max(xmaxtmp);
 ymin = min(ymintmp); ymax = max(ymaxtmp);
 xinc = mean(xinctmp); yinc = mean(yinctmp);
+disp('New bounding box and increments:')
+disp(strcat('W E S N:',num2str(xmin),32,num2str(xmax),32,num2str(ymin),32,num2str(ymax)))
+disp(strcat('xinc & yinc:',num2str(xinc),32,num2str(yinc)))
+disp('--------------------------------------------')
 
 % Construct Lon and Lat matrices
 Lon = xmin:xinc:xmax;
@@ -66,6 +75,7 @@ OutMat{1,1} = Lon;
 OutMat{2,1} = Lat;
 % Expand original x y to make indices for filling in the grids
 for i = 1:size(InMat,1)
+    disp(strcat('Expanding matrix:',num2str(i)))
     z = InMat{i,3};
     % Zero-padding for original x and y
     x = InMat{i,1}; y = InMat{i,2};
