@@ -34,8 +34,8 @@ Each input variable should align to the image attributes
 ---
 ### Example:
 Make sure every grd has the same size and increment!  
-If not, use `Resamp.csh` to make all grds the same sizes and increments
-https://github.com/LiChiehLin/GMTSAR_gadgets/blob/de9d5f5c177badab2a16f0c8c42290506e4789b3/ResampleGrd/Resamp.csh
+If not, use `Resamp.csh` to make all grds the same sizes and increments  
+Please refer to my another repository: `LiChiehLin/GMTSAR_gadgets/ResampleGrd/Resamp.csh`
 ```MatLab
 % Read data
 [x,y,AscLOS] = grdread2('Sentinel_Asc_LOS.grd');
