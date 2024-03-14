@@ -8,6 +8,10 @@
 % (2024.01.27) Revision:                                                  %
 % Change parameterization in velocity estimation, add checks before start %
 %                                                                         %
+% (2024.03.14) Update:                                                    %
+% 1. Change from hdf5read to h5read to make it more efficient             %
+% 2. Change how it reads data matrices to not take up too much memory     %
+%                                                                         %
 % Extract surface velocity field in certain time period from timeseries   %
 % data made by mintpy (geo_timeseries.h5, geo_timeseries_ramp.h5)         %
 %                                                                         %
@@ -37,17 +41,14 @@ if length(num2str(StartT)) ~= 8 || length(num2str(EndT)) ~= 8
     error('Input time format needs to be 8 digits (yyyymmdd)')
 end
 
-%% Read matrix and attributes
-file = hdf5info(Inh5file);
+%% Read dates
+file = h5info(Inh5file);
 
-% Get dates
-epoch = hdf5read(file.GroupHierarchy.Datasets(2));
-date = zeros(length(epoch),1);
+epoch = h5read(Inh5file,'/date');
 for i = 1:length(epoch)
-    date(i,1) = str2double(epoch(i).Data);
+    date(i,1) = str2double(epoch(i));
 end
-disp(strcat('Full length of data:',num2str(date(1)),'~',num2str(date(end))))
-disp(strcat('Extracting data between:',num2str(StartT),'~',num2str(EndT)))
+disp(date)
 
 % Convert to decimal year
 datestr = num2str(date);
@@ -56,9 +57,17 @@ mm = str2num(datestr(:,5:6));
 dd = str2num(datestr(:,7:8));
 datedeci = decyear(yyyy,mm,dd);
 
+%% Get displacement for given timespan
+Ind = (date >= StartT) & (date <= EndT);
+Sind = find(Ind); Sind = Sind(1);
+Eind = find(Ind); Eind = Eind(end);
+Count = length(find(Ind));
+disp(strcat('Extracting data between:',32,num2str(date(Sind)),'~',num2str(date(Eind))))
 
 % Get displacement
-Displ = hdf5read(file.GroupHierarchy.Datasets(3));
+dim = file.Datasets(3).Dataspace.Size;
+Displ = h5read(Inh5file,'/timeseries',[1 1 Sind],[dim(1) dim(2) Count]);
+
 % Transpose and flipud the matrix to fit with Lon Lat and the format
 % grdread2 reads in (flipud when doing imagesc)
 Displ = permute(Displ,[2,1,3]); % Transpose
@@ -67,17 +76,17 @@ Displ = flipud(Displ); % flipud
 % Get Lon Lat
 % Note that there's a discrepancy between the coordinate steps and the
 % autual ouput. Below fixed this problem
-Attr = cell(length(file.GroupHierarchy.Attributes),1);
-for i = 1:length(file.GroupHierarchy.Attributes)
-    Attr{i,1} = file.GroupHierarchy.Attributes(i).Shortname;
+Attr = cell(length(file.Attributes),1);
+for i = 1:length(file.Attributes)
+    Attr{i,1} = file.Attributes(i).Name;
 end
-Lonstart = str2double(file.GroupHierarchy.Attributes(strcmp(Attr,'X_FIRST')).Value.Data);
-Lonstep = str2double(file.GroupHierarchy.Attributes(strcmp(Attr,'X_STEP')).Value.Data);
+Lonstart = str2double(file.Attributes(strcmp(Attr,'X_FIRST')).Value);
+Lonstep = str2double(file.Attributes(strcmp(Attr,'X_STEP')).Value);
 Lonend = Lonstart+Lonstep*size(Displ,2);
 Lonstep = (Lonend - Lonstart)/(size(Displ,2)-1);
 
-Latstart = str2double(file.GroupHierarchy.Attributes(strcmp(Attr,'Y_FIRST')).Value.Data);
-Latstep = str2double(file.GroupHierarchy.Attributes(strcmp(Attr,'Y_STEP')).Value.Data);
+Latstart = str2double(file.Attributes(strcmp(Attr,'Y_FIRST')).Value);
+Latstep = str2double(file.Attributes(strcmp(Attr,'Y_STEP')).Value);
 Latend = Latstart+Latstep*size(Displ,1);
 Latstep = (Latend - Latstart)/(size(Displ,1)-1);
 
@@ -87,19 +96,16 @@ if (Lat(1) > Lat(end))
     Lat = fliplr(Lat);
 end
 
-%% Get displacement for given timespan
-Ind = (date >= StartT) & (date <= EndT);
-P1 = Displ(:,:,Ind);
-x = datedeci(Ind);
 
 %% Estimate velocity using simple linear regression
-row = size(P1,1); col = size(P1,2);
-P1calc = zeros(size(P1,3),row*col);
-for i = 1:size(P1,3)
-    tmp = P1(:,:,i);
+x = datedeci(Ind);
+row = size(Displ,1); col = size(Displ,2);
+P1calc = zeros(size(Displ,3),row*col);
+for i = 1:size(Displ,3)
+    tmp = Displ(:,:,i);
     P1calc(i,:) = tmp(:);
 end
-G = [x,ones(size(P1,3),1)];
+G = [x,ones(size(Displ,3),1)];
 m = G\P1calc;
 
 slope = m(1,:);
