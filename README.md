@@ -39,6 +39,9 @@ Use grdwrite2.m to write netCDF grds
   * Tlookup.m
 - Expand_extent
   * Expand_extent.m
+- Make_profiles
+  * ProfileLine.m
+  * MakeProfile.m
 
 ---
 ## Python
