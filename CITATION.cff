@@ -1,0 +1,15 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 3D_decomposition
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Li-Chieh J.
+    family-names: Lin
+    email: llin148@ucr.edu
+repository-code: 'https://github.com/LiChiehLin/3D_decomposition'
+license: AGPL-3.0
