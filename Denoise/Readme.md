@@ -16,6 +16,10 @@ Approximately remove ~5% of data at the current input image matrix.
    * DeNoiseMat: matrix. Denoised image matrix
    * NInd: matrix. The indices of removed pixels
 ---
+#### Please cite the paper if you used the code.  
+Lin, L. C. J., Chuang, R. Y., Lu, C. H., Ching, K. E., & Chen, C. L. (2024). *Derivation of 3D Coseismic Displacement Field from Integrated Azimuth and LOS Displacements for the 2018 Hualien Earthquake.* Remote Sensing, 16(7), 1159.
+
+---
 ### Example:
 ```MatLab
 % Read data and determine window size
