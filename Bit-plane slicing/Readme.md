@@ -27,7 +27,8 @@ Reconstruct the original matrix based on the bit planes in interest. This would 
 ---
 ### BPshow.m
 A simple function to show the result of Bit-Plane slicing. It takes time for Matlab to show the figure if the input matrix is large (~20 seconds). 
-
+##### Input variable:  
+  * BitPlanes: cell. The output ***BitPlanes*** from `BPslice.m`
 ---
 
 
