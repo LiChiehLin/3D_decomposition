@@ -5,7 +5,7 @@ These codes were developed under MatLab 2015b
   
 Put every code in one directory and add path to your *main* script.  
 ```MatLab
-addpath(genpath('DIRECTORY OF MATLAB CODES'))
+addpath(genpath('DIRECTORY OF MATLAB CODES/'))
 ```
  
 ---
@@ -35,13 +35,17 @@ Use grdwrite2.m to write netCDF grds
   * findlocalmax.m
   * findlocalmin.m
 - Timeseries_mintpy:
-  * Extract_Timespan.m
-  * Tlookup.m
+  * ~~Extract_Timespan.m~~ `(Moved to LiChiehLin/MintPy_gadgets/Extract_velocity)`
+  * ~~Tlookup.m~~ `(Moved to LiChiehLin/MintPy_gadgets/Extract_velocity)`
 - Expand_extent
   * Expand_extent.m
 - Make_profiles
   * ProfileLine.m
   * MakeProfile.m
+- Bit-plane slicing
+  * BPslice.m
+  * BPrecon.m
+  * BPshow.m
 
 ---
 ## Python
