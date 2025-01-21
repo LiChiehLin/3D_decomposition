@@ -60,12 +60,12 @@ Row = size(InGrd{1},1);
 Col = size(InGrd{1},2);
 Num = length(InGrd);
 
-if iscell(Weights) && (length(Weights) == length(InGrd))
+if strcmp(Weights,'no')
+    Wtype = 'no';
+elseif iscell(Weights) && (length(Weights) == length(InGrd))
     Wtype = '1';
 elseif ~iscell(Weights) && (length(Weights) == length(InGrd))
-    Wtype = '2';
-elseif strcmp(Weights,'no')
-    Wtype = 'no';
+    Wtype = '2'; 
 else
     error( 'u:stuffed:it' , ['Weight input should be:\n', ...
         '(1) a cell containing the same size of InGrd (Different weights for each pixel and each input), or \n', ...
@@ -92,21 +92,21 @@ for i = 1:Num
     elseif ~iscell(Azimuth) && iscell(LookAngle)
         Azi = Azimuth(i)*ones(Row,Col);
         Theta = LookAngle{i};
-        Azi_check = Azi;
+        Azi_check = mean(Azi(:),'omitnan');
     elseif ~iscell(Azimuth) && ~iscell(LookAngle)
         Azi = Azimuth(i)*ones(Row,Col);
         Theta = LookAngle(i)*ones(Row,Col);
-        Azi_check = Azi;
+        Azi_check = mean(Azi(:),'omitnan');
     end
 
     % Which quadrant is the sensor flying
-    if Azi_check > 0 && Azi_check < 90
+    if (Azi_check) > 0 && (Azi_check) < 90
         Quad = '1';
-    elseif Azi_check > 90 && Azi_check < 180
+    elseif (Azi_check) > 90 && (Azi_check) < 180
         Quad = '4';
-    elseif Azi_check > 180 && Azi_check < 270
+    elseif (Azi_check) > 180 && (Azi_check) < 270
         Quad = '3';
-    elseif Azi_check > 270 && Azi_check < 360
+    elseif (Azi_check) > 270 && (Azi_check) < 360
         Quad = '2';
     end
 
@@ -164,7 +164,7 @@ for i = 1:Num
             elseif strcmp(Wtype,'2')
                 WGrd = Weights(i);
                 W{r,c}(i,i) = WGrd;                
-            elseif strcmp(Wtype,'3')
+            elseif strcmp(Wtype,'no')
                 WGrd = 1;
                 W{r,c}(i,i) = WGrd;
             end
